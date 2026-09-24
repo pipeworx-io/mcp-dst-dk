@@ -3,7 +3,7 @@
   "name": "io.github.pipeworx-io/dst-dk",
   "title": "Dst Dk",
   "description": "Statistics Denmark (Danmarks Statistik / Statbank) MCP.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "websiteUrl": "https://pipeworx.io/packs/dst-dk",
   "repository": {
     "url": "https://github.com/pipeworx-io/mcp-dst-dk",

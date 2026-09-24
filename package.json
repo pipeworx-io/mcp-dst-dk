@@ -1,20 +1,32 @@
 {
   "name": "@pipeworx/mcp-dst-dk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Statistics Denmark (Danmarks Statistik / Statbank) MCP.",
   "type": "module",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "bin": {
+    "mcp-dst-dk": "bin/cli.js"
+  },
   "keywords": ["mcp", "mcp-server", "model-context-protocol", "pipeworx", "dst-dk"],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pipeworx-io/mcp-dst-dk"
+    "url": "git+https://github.com/pipeworx-io/mcp-dst-dk.git"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "tsx": "^4.19.0"
+  },
   "devDependencies": {
-    "typescript": "^5.7.0"
+    "typescript": "^5.9.3",
+    "@cloudflare/workers-types": "^4.20260405.1"
+  },
+  "pipeworx": {
+    "sourceHash": "v1-eaf57af488e67f8798e000db40486c3cd685dc0ce154e1bf71923cb3ec234a2f",
+    "sourceCommit": "76aa8f5d9b5dc2f665563030647c68e661478864"
   }
 }
