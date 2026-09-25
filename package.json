@@ -1,6 +1,6 @@
 {
   "name": "@pipeworx/mcp-dst-dk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Statistics Denmark (Danmarks Statistik / Statbank) MCP.",
   "type": "module",
   "main": "src/index.ts",
@@ -26,7 +26,7 @@
     "@cloudflare/workers-types": "^4.20260405.1"
   },
   "pipeworx": {
-    "sourceHash": "v1-eaf57af488e67f8798e000db40486c3cd685dc0ce154e1bf71923cb3ec234a2f",
-    "sourceCommit": "76aa8f5d9b5dc2f665563030647c68e661478864"
+    "sourceHash": "v1-3365d322e3722afa07f4cdc5dde8b5aee99c36270796c729ffef4cab683d70a7",
+    "sourceCommit": "4fa4c64448be06f4a2ee4cee19f756f3558a7cad"
   }
 }
