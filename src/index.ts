@@ -829,7 +829,13 @@ async function callTool(name: string, args: Record<string, unknown>): Promise<un
     case 'table_info': {
       const tableId = reqStr(args, 'tableId', '"FOLK1C"');
       const qs = new URLSearchParams({ lang, format: 'JSON' });
-      return dstGet(`/tableinfo/${encodeURIComponent(tableId)}?${qs.toString()}`);
+      try {
+        return await dstGet(`/tableinfo/${encodeURIComponent(tableId)}?${qs.toString()}`);
+      } catch (err) {
+        const miss = err instanceof Error ? dstMissResult(400, err.message, tableId, {}) : undefined;
+        if (miss) return miss;
+        throw err;
+      }
     }
 
     case 'denmark_population': {
@@ -899,7 +905,12 @@ async function callTool(name: string, args: Record<string, unknown>): Promise<un
       const res = await pwFetch(`${BASE}/data/${encodeURIComponent(tableId)}/${format}?${qs.toString()}`, {
         headers: { Accept: 'application/json', 'User-Agent': UA },
       });
-      if (!res.ok) throw new Error(`DST: ${res.status} ${await res.text().then((t) => t.slice(0, 200))}`);
+      if (!res.ok) {
+        const body = await res.text().then((t) => t.slice(0, 200));
+        const miss = dstMissResult(res.status, body, tableId, variables as Record<string, unknown>);
+        if (miss) return miss;
+        throw new Error(`DST: ${res.status} ${body}`);
+      }
       if (format === 'BULK') return res.text();
       return res.json();
     }
@@ -907,6 +918,43 @@ async function callTool(name: string, args: Record<string, unknown>): Promise<un
     default:
       throw new Error(`Unknown tool: ${name}`);
   }
+}
+
+/**
+ * DST answers both caller misses with 400 {"errorTypeCode":"EXTRACT-NOTFOUND"}
+ * and they threw as a Pipeworx defect with "retry the same tool" (fleet #2496).
+ * Wording verbatim from the live API, 2026-09-28:
+ *   "Table does not exist: NOSUCHTBL"   → not_found, pointing at list_tables
+ *   "Can't find value: 999999 (OMRÅDE)" → the table exists, the selection
+ *                                         matched nothing: labelled empty
+ */
+function dstMissResult(
+  status: number,
+  body: string,
+  tableId: string,
+  variables: Record<string, unknown>,
+): Record<string, unknown> | undefined {
+  if (status !== 400 && status !== 404) return undefined;
+  if (/Table does not exist/i.test(body)) {
+    return {
+      error: 'not_found',
+      message: `Statistics Denmark has no table "${tableId}". Call list_tables({search: "..."}) to find the id.`,
+      tableId,
+    };
+  }
+  const value = body.match(/Can't find value:\s*([^"(]*?)\s*\(([^)]+)\)/i);
+  if (value) {
+    return {
+      tableId,
+      variables,
+      value: [],
+      empty_reason: 'no_match',
+      note:
+        `Statistics Denmark has table "${tableId}" but variable ${value[2]} has no value "${value[1]}", so nothing matched. ` +
+        `Call table_info({tableId: "${tableId}"}) for the valid value ids.`,
+    };
+  }
+  return undefined;
 }
 
 /** Shift a "YYYYQn" label by n quarters. Used for the year-on-year delta. */
