@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.pipeworx-io/dst-dk",
   "title": "Dst Dk",
-  "description": "Statistics Denmark (Danmarks Statistik / Statbank) MCP.",
-  "version": "0.1.3",
+  "description": "Statistics Denmark (Danmarks Statistik / Statbank) MCP. Keyless REST API: https://api.statbank.dk/v1",
+  "version": "0.1.4",
   "websiteUrl": "https://pipeworx.io/packs/dst-dk",
   "repository": {
     "url": "https://github.com/pipeworx-io/mcp-dst-dk",
