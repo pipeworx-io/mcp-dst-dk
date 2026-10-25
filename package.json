@@ -1,6 +1,6 @@
 {
   "name": "@pipeworx/mcp-dst-dk",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Statistics Denmark (Danmarks Statistik / Statbank) MCP. Keyless REST API: https://api.statbank.dk/v1",
   "type": "module",
   "main": "src/index.ts",
@@ -26,7 +26,7 @@
     "@cloudflare/workers-types": "^4.20260405.1"
   },
   "pipeworx": {
-    "sourceHash": "v1-76cd1d3be7461359f7b842effb2084f49c9ed4a14b15f1d3fb77de38fda94b34",
-    "sourceCommit": "5749f83c0ea115fab4c0c0ef04b66b05f2507d67"
+    "sourceHash": "v1-96664f3b800639731f9c46cebf497ffddb3b1104de2ceedacd603bddb16b45bb",
+    "sourceCommit": "29fb434ca65fe0f61191f19c3502f583f5fb99d7"
   }
 }
